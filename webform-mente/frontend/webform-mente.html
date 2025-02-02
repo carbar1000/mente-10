@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Pesquisa</title>
+    <link rel="stylesheet" href="./webform-mente.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="intro" class="centered-text hide-on-click">
+        <h1>Tens Mente Empreendedora?</h1>
+        <h3>Preencha este inquérito e descubra GRÁTIS agora!</h3>
+        <div class="buttons">
+            <button id="startButton" class="hide-on-click" onclick="startSurvey()">Comece Aqui →</button>
+        </div>
+    </div>
+    <form id="myForm" class="hidden" method="POST" action="https://script.google.com/macros/s/AKfycbzdLpEgmmmlPFV_V-W0s9lF-f3QrtU4fBwmcQEAI5Et962tLFjsLms2FRSivtyYAx_3dA/exec">
+        <!-- Seção Cor Favorita -->
+        <div class="form-container active" id="cor-favorita">
+            <div class="form-group">
+                <h2>Qual sua cor favorita?</h2>
+                <div role="radiogroup" aria-labelledby="cor-label">
+                    <div class="option-container">
+                        <input type="radio" id="azul" name="cor" value="azul" onclick="autoNext()">
+                        <label for="azul">Azul</label>
+                    </div>
+                    <div class="option-container">
+                        <input type="radio" id="vermelho" name="cor" value="vermelho" onclick="autoNext()">
+                        <label for="vermelho">Vermelho</label>
+                    </div>
+                    <div class="option-container">
+                        <input type="radio" id="verde" name="cor" value="verde" onclick="autoNext()">
+                        <label for="verde">Verde</label>
+                    </div>
+                    <div class="option-container">
+                        <input type="radio" id="amarelo" name="cor" value="amarelo" onclick="autoNext()">
+                        <label for="amarelo">Amarelo</label>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons">
+                <button type="button" onclick="navigate(-1)" disabled>← Anterior</button>
+                <button type="button" onclick="navigate(1)">Próximo →</button>
+            </div>
+        </div>
+        <!-- Outras seções do formulário aqui -->
+        <!-- Seção Animal -->
+        <div class="form-container" id="animal-favorito">
+            <div class="form-group">
+                <h2>Qual seu animal favorito?</h2>
+                <div role="radiogroup" aria-labelledby="animal-label">
+                    <div class="option-container">
+                        <input type="radio" id="cao" name="animal" value="cão" onclick="autoNext()">
+                        <label for="cao">Cão</label>
+                    </div>
+                    <div class="option-container">
+                        <input type="radio" id="gato" name="animal" value="gato" onclick="autoNext()">
+                        <label for="gato">Gato</label>
+                    </div>
+                    <div class="option-container">
+                        <input type="radio" id="leao" name="animal" value="leão" onclick="autoNext()">
+                        <label for="leao">Leão</label>
+                    </div>
+                    <div class="option-container">
+                        <input type="radio" id="zebra" name="animal" value="zebra" onclick="autoNext()">
+                        <label for="zebra">Zebra</label>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons">
+                <button type="button" onclick="navigate(-1)">← Anterior</button>
+                <button type="button" onclick="navigate(1)">Próximo →</button>
+            </div>
+        </div>
+        <!-- Seção Hobbies -->
+        <div class="form-container" id="hobby-favorito">
+            <div class="form-group">
+                <h2>Qual seu hobby favorito?</h2>
+                <div role="radiogroup" aria-labelledby="hobby-label">
+                    <div class="option-container">
+                        <input type="radio" id="musica" name="hobby" value="música" onclick="autoNext()">
+                        <label for="musica">Música</label>
+                    </div>
+                    <div class="option-container">
+                        <input type="radio" id="ler" name="hobby" value="ler" onclick="autoNext()">
+                        <label for="ler">Leitura</label>
+                    </div>
+                    <div class="option-container">
+                        <input type="radio" id="teatro" name="hobby" value="teatro" onclick="autoNext()">
+                        <label for="teatro">Teatro</label>
+                    </div>
+                    <div class="option-container">
+                        <input type="radio" id="arte" name="hobby" value="arte" onclick="autoNext()">
+                        <label for="arte">Arte</label>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons">
+                <button type="button" onclick="navigate(-1)">← Anterior</button>
+                <button type="button" onclick="navigate(1)">Próximo →</button>
+            </div>
+        </div>
+        <!-- Seção Dados Pessoais -->
+        <div class="form-container" id="dados-pessoais">
+            <div class="form-group">
+                <label for="nome">Nome completo</label>
+                <input type="text" id="nome" name="nome" required 
+                       aria-describedby="nome-help"
+                       pattern="[A-Za-zÀ-ÿ\s]{5,}">
+            </div>
+            <div class="buttons">
+                <button type="button" onclick="navigate(-1)">← Anterior</button>
+                <button type="button" onclick="navigate(1)">Próximo →</button>
+            </div>
+        </div>
+        <!-- Seção Contato -->
+        <div class="form-container" id="dados-contato">
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required
+                       aria-describedby="email-help"
+                       pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}">
+            </div>
+            <div class="buttons">
+                <button type="button" onclick="navigate(-1)">← Anterior</button>
+                <button type="submit">Enviar formulário</button>
+            </div>
+        </div>
+    </form>
+    <main>
+    </main>
+    <div id="flashMessage" class="flash-message" role="alert"></div>
+    
+    <script src="./webform-mente.js"></script>
+    <script src="./webform-mente-navigate.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+# Resumo do Projeto
+
+## Função do Projeto
+O projeto é um formulário web que permite aos usuários enviar respostas para o Supabase, que é uma plataforma de backend como serviço.
+
+## Estrutura do Projeto
+### Frontend
+- Contém arquivos HTML e JavaScript que gerenciam a interface do usuário e a lógica de envio de dados.
+- Arquivos principais:
+  - `index.html`: A página principal do formulário.
+  - `formHandler.js`: Lida com a lógica de manipulação do formulário.
+
+### Backend
+- Contém a lógica do servidor e a configuração do ambiente.
+- Arquivos principais:
+  - `server.js`: O ponto de entrada do servidor que gerencia as requisições.
+  - `.env`: Contém variáveis de ambiente, como credenciais do Supabase.
+  - `package.json`: Lista as dependências do projeto.
+
+## Tecnologias Usadas
+- **Frontend**: HTML, JavaScript (possivelmente com bibliotecas como Axios ou Fetch API para chamadas de API).
+- **Backend**: Node.js (para executar o servidor), Express.js (se utilizado para gerenciar rotas e middleware).
+
+## Pacotes a Instalar
+### Frontend
+- Nenhum pacote específico listado, mas pode incluir bibliotecas para manipulação de formulários e chamadas de API.
+
+### Backend
+- `express`: Para criar o servidor.
+- `dotenv`: Para gerenciar variáveis de ambiente.
+- `supabase-js`: Para interagir com o Supabase.
+
+## Estrutura para Ambiente de Desenvolvimento
+- Instalação do Node.js e npm.
+- Configuração do ambiente local com as dependências necessárias.
+- Uso de um servidor local (como o Express) para testar o backend.
+
+## Estrutura para Ambiente Online
+- Implantação do backend em um serviço de hospedagem (como Heroku, Vercel ou DigitalOcean).
+- Configuração do Supabase para gerenciar o banco de dados e autenticação.

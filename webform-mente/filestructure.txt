@@ -1,0 +1,18 @@
+|-- backend
+    |-- .env
+    |-- .gitignore
+    |-- package-lock.json
+    |-- package.json
+    |-- server.js
+|-- extrutura
+|-- frontend
+    |-- obrigado.html
+    |-- package-lock.json
+    |-- package.json
+    |-- webform-mente-navigate.js
+    |-- webform-mente.css
+    |-- webform-mente.html
+    |-- webform-mente.js
+    |-- webpack.config.js
+|-- readme
+|-- supabaseClient.js
