@@ -4,7 +4,8 @@
   "description": "Frontend do projeto de formulário web",
   "main": "webform-mente.html",
   "scripts": {
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "start": "node server.js"
   },
   "author": "Seu Nome",
   "license": "ISC",
