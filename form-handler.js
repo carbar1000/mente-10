@@ -2,10 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('myForm');
     if (form) {
         // Remove event listeners existentes para evitar duplicação
-    // Remove event listeners existentes para evitar duplicação
-    form.removeEventListener('submit', handleSubmit);
-    form.addEventListener('submit', handleSubmit);
-
+        form.removeEventListener('submit', handleSubmit);
         form.addEventListener('submit', handleSubmit);
     }
 });
@@ -17,6 +14,7 @@ function handleSubmit(event) {
     formData.forEach((value, key) => {
         dados[key] = value;
     });
+    // Chama a função para enviar as respostas
     enviarRespostas(dados);
 }
 
@@ -36,7 +34,8 @@ async function enviarRespostas(dados) {
         }
 
         // Enviar para Google Sheets via webhook
-        const responseSheets = await fetch('https://script.google.com/macros/s/AKfycbzdLpEgmmmlPFV_V-W0s9lF-f3QrtU4fBwmcQEAI5Et962tLFjsLms2FRSivtyYAx_3dA/exec', {
+        const responseSheets = await fetch(process.env.GOOGLE_SCRIPT_URL, {
+
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
