@@ -2,8 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
-const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbzdLpEgmmmlPFV_V-W0s9lF-f3QrtU4fBwmcQEAI5Et962tLFjsLms2FRSivtyYAx_3dA/exec'; // URL do Google Apps Script
-
+const googleScriptUrl = process.env.GOOGLE_SCRIPT_URL; // Variável de ambiente para a URL do Google Apps Script
 
 if (!supabaseUrl || !supabaseKey || !googleScriptUrl) {
     throw new Error('Supabase URL, chave anônima e/ou URL do Google Script não configuradas');
@@ -49,8 +48,7 @@ export default async function handler(req, res) {
             console.log('Dados enviados com sucesso:', data);
 
             // Enviar dados para Google Sheets via Google Apps Script
-            const responseSheets = await fetch(process.env.GOOGLE_SCRIPT_URL, {
-
+            const responseSheets = await fetch(googleScriptUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
