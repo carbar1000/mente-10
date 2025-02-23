@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('myForm');
     if (form) {
-        // Remove event listeners existentes para evitar duplicação
-    // Remove event listeners existentes para evitar duplicação
+
     form.removeEventListener('submit', handleSubmit);
     form.addEventListener('submit', handleSubmit);
 
@@ -17,7 +16,9 @@ function handleSubmit(event) {
     formData.forEach((value, key) => {
         dados[key] = value;
     });
+    console.log('Dados a serem enviados:', dados); // Adicionando log para verificar a estrutura dos dados
     enviarRespostas(dados);
+
 }
 
 async function enviarRespostas(dados) {
