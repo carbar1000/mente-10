@@ -11,9 +11,13 @@ export default async function handler(req, res) {
     )
 
     try {
-      const { data, error } = await supabase
-        .from('respostas')
-        .insert([req.body])
+            if (!req.body || Object.keys(req.body).length === 0) {
+                return res.status(400).json({ error: 'Dados do formulário inválidos' });
+            }
+            const { data, error } = await supabase
+                .from('respostas')
+                .insert([req.body])
+
 
       if (error) throw error
 
