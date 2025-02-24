@@ -62,11 +62,14 @@ export default async function handler(req, res) {
                 console.error('Erro ao enviar dados para Google Sheets:', responseSheets.statusText);
             }
 
+            const origin = req.headers.origin || req.headers.referer?.replace(/\/[^\/]*$/, '') || '';
             return res.status(200).json({
                 success: true,
                 data: data,
-                redirect: '/obrigado.html'
+                redirect: origin + '/obrigado.html'
             });
+
+
 
 
         } catch (error) {
