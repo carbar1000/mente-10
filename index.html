@@ -2,10 +2,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90</text></svg>">
+    <meta name="theme-color" content="#ffffff">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Pesquisa.</title>
-    <link rel="stylesheet" href="./styles/webform-mente.css"> <!-- Vinculação do CSS -->
+    <title>Formulário de Pesquisa</title>
+    <link rel="stylesheet" href="./webform-mente.css">
     <style>
         .hidden {
             display: none;
@@ -13,14 +15,19 @@
     </style>
 </head>
 <body>
-    <div id="intro" class="centered-text">
-        <h1>Tens Mente Empreendedora?</h1>
+    <div id="intro" class="centered-text hide-on-click">
+        <h1>Tens Mente Empreendedora-9?</h1>
         <h3>Preencha este inquérito e descubra GRÁTIS agora!</h3>
         <div class="buttons">
-            <button id="startButton" onclick="startSurvey()">Comece Aqui →</button>
+            <button id="startButton" class="hide-on-click" onclick="startSurvey()">Comece Aqui →</button>
         </div>
     </div>
+    <!-- Mude de: -->
+    <!-- Remover estas linhas -->
     <form id="myForm" class="hidden" method="POST">
+    
+    <!-- Para: -->
+    <form id="myForm" class="hidden">
         <!-- Seção Cor Favorita -->
         <div class="form-container active" id="cor-favorita">
             <div class="form-group">
@@ -49,6 +56,7 @@
                 <button type="button" onclick="navigate(1)">Próximo →</button>
             </div>
         </div>
+        <!-- Outras seções do formulário aqui -->
         <!-- Seção Animal -->
         <div class="form-container" id="animal-favorito">
             <div class="form-group">
@@ -109,7 +117,9 @@
         <div class="form-container" id="dados-pessoais">
             <div class="form-group">
                 <label for="nome">Nome completo</label>
-                <input type="text" id="nome" name="nome" required aria-describedby="nome-help">
+                <input type="text" id="nome" name="nome" required 
+                       aria-describedby="nome-help"
+                       pattern="[A-Za-zÀ-ÿ\s]{5,}">
             </div>
             <div class="buttons">
                 <button type="button" onclick="navigate(-1)">← Anterior</button>
@@ -120,7 +130,9 @@
         <div class="form-container" id="dados-contato">
             <div class="form-group">
                 <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" required aria-describedby="email-help" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}">
+                <input type="email" id="email" name="email" required
+                       aria-describedby="email-help"
+                       pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}">
             </div>
             <div class="buttons">
                 <button type="button" onclick="navigate(-1)">← Anterior</button>
@@ -128,11 +140,16 @@
             </div>
         </div>
     </form>
+    <main>
+    </main>
     <div id="flashMessage" class="flash-message" role="alert"></div>
-    <script type="module" src="./scripts/webform-mente.js"></script>
-    <script src="./scripts/webform-mente-navigate.js"></script>
-    <script>
-        document.getElementById('myForm').addEventListener('submit', submitForm);
-    </script>
+    
+        <!-- Supabase CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.48.1/dist/umd/supabase.min.js"></script>
+        <script src="./supabase-config.js"></script>
+        <script src="./webform-mente.js"></script>
+        <script src="./webform-mente-navigate.js"></script>
+        <script src="./form-handler.js"></script>
+
 </body>
 </html>
