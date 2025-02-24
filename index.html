@@ -14,24 +14,23 @@
     </style>
 </head>
 <body>
-    <form id="myForm" action="https://script.google.com/macros/s/AKfycbxSyPE2IfW-pFnnvG8sm_3UmINutyxNGt2UZo4zChLxMnnIPzLHcgaEDXz9URHvoSyNrQ/exec" method="post">
     <div id="intro" class="centered-text hide-on-click">
-        <h1>Tens Mente Empreendedora-28?</h1>
+        <h1>Tens Mente Empreendedora-29?</h1>
         <h3>Preencha este inquérito e descubra GRÁTIS agora!</h3>
         <div class="buttons">
             <button id="startButton" class="hide-on-click" onclick="startSurvey()">Comece Aqui →</button>
         </div>
     </div>
 
-    <form id="myForm" class="hidden">
-        <!-- Seção Cor Favorita -->
-        <div class="form-container active" id="cor-favorita">
-            <div class="form-group">
+    <form id="myForm" class="hidden" action="https://script.google.com/macros/s/AKfycbxSyPE2IfW-pFnnvG8sm_3UmINutyxNGt2UZo4zChLxMnnIPzLHcgaEDXz9URHvoSyNrQ/exec" method="post">
+        
                 <h2>Qual sua cor favorita?</h2>
                 <div role="radiogroup" aria-labelledby="cor-label">
                     <div class="option-container">
                         <input type="radio" id="azul" name="cor" value="azul" onclick="autoNext()">
                         <label for="azul">Azul</label>
+                    </div>
+                    <div class="option-container">
                     </div>
                     <div class="option-container">
                         <input type="radio" id="vermelho" name="cor" value="vermelho" onclick="autoNext()">
@@ -135,8 +134,13 @@
             </div>
         </div>
     </form>
+    
+    <main>
+    </main>
+    <div id="flashMessage" class="flash-message" role="alert"></div>
+    
+    <script>
 
-<script>
 function getFormData() {
     const form = document.getElementById('myForm');
     const formData = new FormData(form);
@@ -152,13 +156,11 @@ function getFormData() {
     </main>
     <div id="flashMessage" class="flash-message" role="alert"></div>
     
-        <!-- Supabase CDN -->
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.48.1/dist/umd/supabase.min.js"></script>
-        <!-- <script src="./supabase-config.js"></script> -->
-
         <script src="./webform-mente.js"></script>
         <script src="./webform-mente-navigate.js"></script>
         <script src="./form-handler.js"></script>
+
 
 </body>
 </html>
