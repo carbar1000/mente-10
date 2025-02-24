@@ -1,88 +1,24 @@
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
-const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbzdLpEgmmmlPFV_V-W0s9lF-f3QrtU4fBwmcQEAI5Et962tLFjsLms2FRSivtyYAx_3dA/exec'; // URL do Google Apps Script
-
-
-if (!supabaseUrl || !supabaseKey || !googleScriptUrl) {
-    throw new Error('Supabase URL, chave anônima e/ou URL do Google Script não configuradas');
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey, {
-    auth: {
-        persistSession: false
-    }
-});
-
-console.log('Supabase client configurado com URL:', supabaseUrl);
+import { createClient } from '@supabase/supabase-js'
 
 export default async function handler(req, res) {
-    if (req.method === 'POST') {
-        try {
-            // Validação básica dos dados
-            if (!req.body || Object.keys(req.body).length === 0) {
-                return res.status(400).json({ error: 'Dados do formulário inválidos' });
-            }
+    if (req.method !== 'POST') {
+      return res.status(405).json({ message: 'Método não permitido' })
+    }
 
-            console.log('Dados recebidos:', req.body);
-            
-            const { data, error } = await supabase
-                .from('respostas')
-                .insert([req.body])
-                .select();
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_ANON_KEY
+    )
 
-            if (error) {
-                console.error('Erro ao enviar dados:', {
-                    message: error.message,
-                    details: error.details,
-                    hint: error.hint,
-                    code: error.code
-                });
-                return res.status(500).json({ 
-                    error: 'Erro ao salvar dados',
-                    details: error.message,
-                    code: error.code
-                });
-            }
+    try {
+      const { data, error } = await supabase
+        .from('respostas')
+        .insert([req.body])
 
-            console.log('Dados enviados com sucesso:', data);
+      if (error) throw error
 
-            // Enviar dados para Google Sheets via Google Apps Script
-            const responseSheets = await fetch(process.env.GOOGLE_SCRIPT_URL, {
-
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(req.body), // Enviando os dados recebidos
-            });
-
-            if (!responseSheets.ok) {
-                console.error('Erro ao enviar dados para Google Sheets:', responseSheets.statusText);
-            }
-
-            const origin = req.headers.origin || req.headers.referer?.replace(/\/[^\/]*$/, '') || '';
-            return res.status(200).json({
-                success: true,
-                data: data,
-                redirect: origin + '/obrigado.html'
-            });
-
-
-
-
-        } catch (error) {
-            console.error('Erro ao processar requisição:', error);
-            return res.status(500).json({ 
-                error: 'Erro interno do servidor',
-                details: error.message 
-            });
-        }
-    } else {
-        return res.status(405).json({ 
-            error: 'Método não permitido',
-            allowed: ['POST'] 
-        });
+      res.status(200).json({ success: true })
+    } catch (error) {
+      res.status(500).json({ error: error.message })
     }
 }

@@ -8,23 +8,26 @@ document.addEventListener('DOMContentLoaded', function() {
             const dados = getFormData();
             
             try {
-                const { data, error } = await supabase
-                    .from('respostas')
-                    .insert([dados]);
+                const response = await fetch('/api/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                });
 
-                if (error) throw error;
+                const result = await response.json();
 
-                // Redirecionamento após sucesso
-                window.location.href = '/obrigado.html';
-                
+                if (result.success) {
+                    window.location.href = '/obrigado.html';
+                }
             } catch (error) {
                 console.error('Erro:', error);
                 document.getElementById('flashMessage').textContent = 'Erro ao enviar formulário';
             }
         });
     }
-});
-function getFormData() {
+});function getFormData() {
     const formData = new FormData(document.getElementById('myForm'));
     const dados = {};
     formData.forEach((value, key) => {
