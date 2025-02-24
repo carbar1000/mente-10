@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -16,17 +15,13 @@
 </head>
 <body>
     <div id="intro" class="centered-text hide-on-click">
-        <h1>Tens Mente Empreendedora-9?</h1>
+        <h1>Tens Mente Empreendedora-20?</h1>
         <h3>Preencha este inquérito e descubra GRÁTIS agora!</h3>
         <div class="buttons">
             <button id="startButton" class="hide-on-click" onclick="startSurvey()">Comece Aqui →</button>
         </div>
     </div>
-    <!-- Mude de: -->
-    <!-- Remover estas linhas -->
-    <form id="myForm" class="hidden" method="POST">
-    
-    <!-- Para: -->
+
     <form id="myForm" class="hidden">
         <!-- Seção Cor Favorita -->
         <div class="form-container active" id="cor-favorita">
@@ -56,7 +51,6 @@
                 <button type="button" onclick="navigate(1)">Próximo →</button>
             </div>
         </div>
-        <!-- Outras seções do formulário aqui -->
         <!-- Seção Animal -->
         <div class="form-container" id="animal-favorito">
             <div class="form-group">
@@ -140,13 +134,27 @@
             </div>
         </div>
     </form>
+
+<script>
+function getFormData() {
+    const form = document.getElementById('myForm');
+    const formData = new FormData(form);
+    const dados = {};
+    formData.forEach((value, key) => {
+        dados[key] = value;
+    });
+    return dados;
+}
+</script>
+
     <main>
     </main>
     <div id="flashMessage" class="flash-message" role="alert"></div>
     
         <!-- Supabase CDN -->
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.48.1/dist/umd/supabase.min.js"></script>
-        <script src="./supabase-config.js"></script>
+        <!-- <script src="./supabase-config.js"></script> -->
+
         <script src="./webform-mente.js"></script>
         <script src="./webform-mente-navigate.js"></script>
         <script src="./form-handler.js"></script>
