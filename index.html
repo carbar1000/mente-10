@@ -23,7 +23,7 @@
 </head>
 <body>
     <div id="intro" class="centered-text hide-on-click">
-        <h1>Tens Mente Empreendedora-39?</h1>
+        <h1>Tens Mente Empreendedora-40?</h1>
         <h3>Preencha este inquérito e descubra GRÁTIS agora!</h3>
         <div class="buttons">
             <button id="startButton" class="hide-on-click" onclick="startSurvey()">Comece Aqui →</button>
@@ -182,13 +182,14 @@
                 const result = await response.json();
                 console.log(result);
                 
-                const flashMessage = document.getElementById('flashMessage');
                 if (result.success) {
-                    flashMessage.textContent = 'Formulário enviado com sucesso!';
+                    window.location.href = '/obrigado.html';
                 } else {
+                    const flashMessage = document.getElementById('flashMessage');
                     flashMessage.textContent = 'Falha ao enviar o formulário.';
+                    flashMessage.style.display = 'block';
                 }
-                flashMessage.style.display = 'block';
+
             } catch (error) {
                 console.error(error);
                 const flashMessage = document.getElementById('flashMessage');
