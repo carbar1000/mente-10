@@ -18,9 +18,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const result = await response.json();
 
+                console.log('Resultado da resposta da API:', result);
                 if (result.success) {
                     window.location.href = '/obrigado.html';
                 }
+
             } catch (error) {
                 console.error('Erro:', error);
                 document.getElementById('flashMessage').textContent = 'Erro ao enviar formulário';
