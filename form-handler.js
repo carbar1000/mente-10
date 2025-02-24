@@ -29,9 +29,14 @@ async function enviarRespostas(dados) {
             body: JSON.stringify(dados),
         });
 
-        if (!responseSupabase.ok) {
+        const result = await responseSupabase.json();
+        if (responseSupabase.ok && result.redirect) {
+            window.location.href = result.redirect;
+            return;
+        } else if (!responseSupabase.ok) {
             console.error('Erro ao enviar as respostas para Supabase:', responseSupabase.statusText);
         }
+
 
         // Enviar para Google Sheets via webhook
         const responseSheets = await fetch(process.env.GOOGLE_SCRIPT_URL, {
@@ -42,11 +47,10 @@ async function enviarRespostas(dados) {
             body: JSON.stringify(dados),
         });
 
-        if (responseSheets.ok) {
-            window.location.href = 'obrigado.html';
-        } else {
+        if (!responseSheets.ok) {
             console.error('Erro ao enviar as respostas para Google Sheets:', responseSheets.statusText);
         }
+
     } catch (error) {
         console.error('Erro ao enviar as respostas:', error);
     }
