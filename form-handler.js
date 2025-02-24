@@ -14,7 +14,7 @@ function handleSubmit(event) {
     formData.forEach((value, key) => {
         dados[key] = value;
     });
-    // Chama a função para enviar as respostas
+    console.log('Dados a serem enviados:', dados); // Adicionando log para verificar a estrutura dos dados
     enviarRespostas(dados);
 }
 
@@ -35,7 +35,6 @@ async function enviarRespostas(dados) {
 
         // Enviar para Google Sheets via webhook
         const responseSheets = await fetch(process.env.GOOGLE_SCRIPT_URL, {
-
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
