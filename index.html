@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'></text></svg>">
     <meta name="theme-color" content="#ffffff">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,14 @@
     <style>
         .hidden {
             display: none;
+        }
+        .flash-message {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: #f0f0f0;
+            padding: 10px;
+            border: 1px solid #ccc;
         }
     </style>
 </head>
@@ -135,29 +143,60 @@
         </div>
     </form>
 
-<script>
-function getFormData() {
-    const form = document.getElementById('myForm');
-    const formData = new FormData(form);
-    const dados = {};
-    formData.forEach((value, key) => {
-        dados[key] = value;
-    });
-    return dados;
-}
-</script>
-
     <main>
     </main>
-    <div id="flashMessage" class="flash-message" role="alert"></div>
-    
-        <!-- Supabase CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.48.1/dist/umd/supabase.min.js"></script>
-        <!-- <script src="./supabase-config.js"></script> -->
+    <div id="flashMessage" class="flash-message" role="alert" style="display:none;"></div>
 
-        <script src="./webform-mente.js"></script>
-        <script src="./webform-mente-navigate.js"></script>
-        <script src="./form-handler.js"></script>
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.48.1/dist/umd/supabase.min.js"></script>
+    <!-- Dependências próprias -->
+    <script src="./webform-mente.js"></script>
+    <script src="./webform-mente-navigate.js"></script>
+    <!-- Caso não seja utilizado o form-handler.js, remova-o -->
+    <!-- <script src="./form-handler.js"></script> -->
 
+    <script>
+        function getFormData() {
+            const form = document.getElementById('myForm');
+            const formData = new FormData(form);
+            const dados = {};
+            formData.forEach((value, key) => {
+                dados[key] = value;
+            });
+            return dados;
+        }
+
+        document.getElementById('myForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const dados = getFormData();
+
+            try {
+                const response = await fetch('/api/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                });
+
+                const result = await response.json();
+                console.log(result);
+                
+                if (result.success) {
+                    window.location.href = '/obrigado.html';
+                } else {
+                    const flashMessage = document.getElementById('flashMessage');
+                    flashMessage.textContent = 'Falha ao enviar o formulário.';
+                    flashMessage.style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error(error);
+                const flashMessage = document.getElementById('flashMessage');
+                flashMessage.textContent = 'Erro ao enviar o formulário.';
+                flashMessage.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>

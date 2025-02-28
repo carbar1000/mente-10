@@ -2,40 +2,39 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('myForm');
     if (form) {
         // Remove event listeners existentes para evitar duplicação
-    // Remove event listeners existentes para evitar duplicação
-    form.removeEventListener('submit', handleSubmit);
-    form.addEventListener('submit', handleSubmit);
+        form.removeEventListener('submit', handleSubmit);
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const dados = getFormData();
+            
+            try {
+                const response = await fetch('/api/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                });
 
-        form.addEventListener('submit', handleSubmit);
+                const result = await response.json();
+
+                console.log('Resultado da resposta da API:', result);
+                if (result.success) {
+                    window.location.href = '/obrigado.html';
+                }
+
+            } catch (error) {
+                console.error('Erro:', error);
+                document.getElementById('flashMessage').textContent = 'Erro ao enviar formulário';
+            }
+        });
     }
-});
-
-function handleSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
+});function getFormData() {
+    const formData = new FormData(document.getElementById('myForm'));
     const dados = {};
     formData.forEach((value, key) => {
         dados[key] = value;
     });
-    enviarRespostas(dados);
-}
-
-async function enviarRespostas(dados) {
-    try {
-        const response = await fetch('/api/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(dados),
-        });
-
-        if (response.ok) {
-            window.location.href = 'obrigado.html';
-        } else {
-            console.error('Erro ao enviar as respostas:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Erro ao enviar as respostas:', error);
-    }
+    console.log('Dados a serem enviados:', dados);
+    return dados;
 }
