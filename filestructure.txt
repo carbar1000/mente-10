@@ -11,6 +11,7 @@
 |-- package.json
 |-- README.md
 |-- rules.md
+|-- server.js
 |-- supabase-config.js
 |-- supabase-server-config.js
 |-- webform-mente-navigate.js
