@@ -33,8 +33,19 @@ export default async function handler(req, res) {
     const data = req.body;
 
     try {
-        // Inserir os dados na tabela "respostas"
-        const { error } = await supabase.from('respostas').insert(data);
+        // Prepare data to match the table structure
+        const formData = {
+            nome: data.nome,
+            email: data.email,
+            A: data['cor-favorita'], // Mapping Cor Favorita to A
+            B: data.animal, // Mapping Animal to B
+            C: data.hobby, // Mapping Hobby to C
+            processed: false, // Default value as per table definition
+            user_id: null // Temporary null as per table definition
+        };
+
+        // Insert the prepared data into the "respostas" table
+        const { error } = await supabase.from('respostas').insert(formData);
 
         // Verificar se houve erro durante a inserção
         if (error) {
