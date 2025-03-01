@@ -27,13 +27,12 @@ router.post('/submit', async (req, res) => {
             .select();
 
         if (error) {
-        console.error('Erro ao inserir dados no Supabase:', error.message);
+        console.error('Erro ao inserir dados no Supabase:', error.message, error.stack);
 
             return res.status(500).json({ success: false, message: 'Erro ao enviar dados para o Supabase!' });
         }
 
         console.log('Dados inseridos com sucesso:', data);
-        console.log('Resposta do Supabase:', { data, error }); // Adicionando log da resposta do Supabase
 
         res.json({ success: true, message: 'Dados recebidos e enviados para o Supabase com sucesso!' });
 
