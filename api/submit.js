@@ -33,6 +33,8 @@ router.post('/submit', async (req, res) => {
         }
 
         console.log('Dados inseridos com sucesso:', data);
+        console.log('Resposta do Supabase:', { data, error }); // Adicionando log da resposta do Supabase
+
         res.json({ success: true, message: 'Dados recebidos e enviados para o Supabase com sucesso!' });
 
     } catch (error) {
