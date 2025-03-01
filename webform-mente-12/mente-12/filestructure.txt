@@ -12,10 +12,10 @@
         |-- obrigado.html
         |-- scripts
             |-- api.js
-            |-- webform-mente-navigate.js
-            |-- webform-mente.js
+            |-- mente-12-navigate.js
+            |-- mente-12.js
         |-- styles
-            |-- webform-mente.css
+            |-- mente-12.css
     |-- README.md
     |-- vercel.json
 |-- package-lock.json
