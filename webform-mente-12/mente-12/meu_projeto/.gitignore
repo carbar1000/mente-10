@@ -1,0 +1,3 @@
+# Ignorar arquivos e pastas
+node_modules/
+.env
