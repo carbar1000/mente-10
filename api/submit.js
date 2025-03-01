@@ -13,6 +13,12 @@ router.post('/submit', async (req, res) => {
 
     console.log('Dados recebidos:', dados);
 
+    // Validação básica dos dados recebidos
+    if (!dados || typeof dados !== 'object') {
+        return res.status(400).json({ success: false, message: 'Dados inválidos!' });
+    }
+
+
     try {
         // Insert data into Supabase (using the correct table name: "respostas")
         const { data, error } = await supabase
@@ -21,7 +27,8 @@ router.post('/submit', async (req, res) => {
             .select();
 
         if (error) {
-            console.error('Erro ao inserir dados no Supabase:', error);
+        console.error('Erro ao inserir dados no Supabase:', error.message);
+
             return res.status(500).json({ success: false, message: 'Erro ao enviar dados para o Supabase!' });
         }
 
