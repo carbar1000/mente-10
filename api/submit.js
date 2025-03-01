@@ -21,6 +21,7 @@ router.post('/submit', async (req, res) => {
 
     try {
         // Insert data into Supabase (using the correct table name: "respostas")
+        console.log('Dados a serem inseridos no Supabase:', dados);
         const { data, error } = await supabase
             .from('respostas') // Correct table name
             .insert([dados])
