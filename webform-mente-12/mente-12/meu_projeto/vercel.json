@@ -2,31 +2,16 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/submitForm.js",
-      "use": "@vercel/node",
-      "config": {
-        "runtime": "nodejs18.x"
-      }
-    },
-    {
-      "src": "public/**",
+      "src": "meu_projeto/public/index.html",
       "use": "@vercel/static"
     }
   ],
-
   "routes": [
-    {
-      "src": "/api/submitForm",
-      "dest": "/api/submitForm.js"
-    },
-
-    {
-      "src": "^/obrigado.html",
-      "dest": "/public/obrigado.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/public/$1"
+    { "src": "/api/submitForm", "dest": "meu_projeto/api/submitForm.js" }
+  ],
+  "functions": {
+    "api/submitForm.js": {
+      "runtime": "nodejs18.x"
     }
-  ]
+  }
 }

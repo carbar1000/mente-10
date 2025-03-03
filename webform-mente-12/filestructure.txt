@@ -1,0 +1,22 @@
+|-- mente-12
+    |-- .gitignore
+    |-- meu_projeto
+        |-- .gitignore
+        |-- api
+            |-- submitForm.js
+        |-- public
+            |-- index.html
+            |-- obrigado.html
+            |-- scripts
+                |-- form-handler.js
+                |-- supabase-config.js
+                |-- webform-mente-navigate.js
+                |-- webform-mente.js
+            |-- styles
+                |-- obrigado.css
+                |-- webform-mente.css
+        |-- README.md
+        |-- vercel.json
+    |-- package-lock.json
+    |-- package.json
+    |-- README.md

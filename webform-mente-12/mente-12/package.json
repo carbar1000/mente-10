@@ -1,10 +1,11 @@
 {
   "name": "mente-12",
   "version": "1.0.0",
-  "scripts": {
-    "dev": "npx serve -s meu_projeto/src -l 3000"
+  "engines": {
+    "node": "18.x"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.0.0"
+    "@supabase/supabase-js": "^2.48.1",
+    "googleapis": "^126.0.0"
   }
 }

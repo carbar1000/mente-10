@@ -31,12 +31,6 @@ function showContainer(index) {
     
     currentContainer = index;
     updateNavigationButtons();
-
-    if (containers[index].id === 'dados-pessoais') {
-        setTimeout(() => {
-            document.getElementById('nome').focus();
-        }, 100);
-    }
 }
 
 function validateCurrentContainer() {

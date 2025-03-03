@@ -1,65 +1,114 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js'
+import crypto from 'crypto'
+
+// Funções de utilitário mantidas
+function sanitizeInput(input) {
+  if (typeof input !== 'string') return input;
+  return input
+    .replace(/</g, '<')
+    .replace(/>/g, '>')
+    .replace(/"/g, '"')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;')
+    .trim();
+}
+
+function validateEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function generateCSRFToken() {
+  return crypto.randomBytes(32).toString('hex');
+}
 
 export default async function handler(req, res) {
-    // Configurar cabeçalhos CORS
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  // Configurações de segurança
+  if (req.method !== 'POST') {
+    console.warn(`Método não permitido: ${req.method}`);
+    return res.status(405).json({ 
+      error: 'Método não permitido',
+      message: 'Apenas requisições POST são aceitas.'
+    });
+  }
 
-    // Responder a requisições OPTIONS (pré-voo CORS)
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
+  // Credenciais seguras via variáveis de ambiente
+  const supabaseUrl = process.env.SUPABASE_URL
+  const supabaseKey = process.env.SUPABASE_ANON_KEY
+
+  try {
+    // Validar dados recebidos
+    const formData = req.body
+    if (!formData || Object.keys(formData).length === 0) {
+      console.warn('Dados do formulário inválidos ou vazios');
+      return res.status(400).json({ 
+        error: 'Dados inválidos',
+        message: 'Nenhum dado foi recebido no formulário.'
+      });
     }
 
-    // Verificar se o método da requisição é POST
-    if (req.method !== 'POST') {
-        return res.status(405).json({ message: 'Método não permitido.' });
+    // Sanitizar e validar dados
+    const sanitizedData = {
+      nome: sanitizeInput(formData.Nome),
+      email: sanitizeInput(formData.Email),
+      cor: sanitizeInput(formData.A),
+      animal: sanitizeInput(formData.B),
+      hobby: sanitizeInput(formData.C)
     }
 
-    // Obter credenciais do Supabase do ambiente
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_KEY;
-
-    // Verificar se as credenciais estão configuradas
-    if (!supabaseUrl || !supabaseKey) {
-        console.error('Configuração do Supabase ausente.');
-        return res.status(500).json({ message: 'Configuração do Supabase ausente.' });
+    // Validação adicional de email
+    if (!validateEmail(sanitizedData.email)) {
+      console.warn(`Email inválido: ${sanitizedData.email}`);
+      return res.status(400).json({ 
+        error: 'Email inválido',
+        message: 'O formato do email não é válido.'
+      });
     }
 
-    // Criar cliente Supabase
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
-    // Extrair os dados do corpo da requisição
-    const data = req.body;
-
-    try {
-        // Prepare data to match the table structure
-        const formData = {
-            nome: data.nome,
-            email: data.email,
-            A: data['cor-favorita'], // Mapping Cor Favorita to A
-            B: data.animal, // Mapping Animal to B
-            C: data.hobby, // Mapping Hobby to C
-            processed: false, // Default value as per table definition
-            user_id: null // Temporary null as per table definition
-        };
-
-        // Insert the prepared data into the "respostas" table
-        const { error } = await supabase.from('respostas').insert(formData);
-
-        // Verificar se houve erro durante a inserção
-        if (error) {
-            console.error('Erro ao inserir dados no Supabase:', error);
-            return res.status(500).json({ message: 'Erro ao salvar os dados.', error: error.message });
-        }
-
-        // Responder com sucesso
-        res.setHeader('Content-Type', 'application/json');
-        return res.status(200).json({ message: 'Dados salvos com sucesso.' });
-    } catch (err) {
-        // Tratar erros gerais
-        console.error('Erro geral:', err);
-        res.setHeader('Content-Type', 'application/json');
-        return res.status(500).json({ message: 'Erro interno do servidor.', error: err.message });
+    // Preparar dados para envio
+    const dataToSend = {
+      ...sanitizedData,
+      timestamp: new Date().toISOString(),
+      csrf_token: generateCSRFToken()
     }
+
+    // Logs de auditoria
+    console.info('Dados recebidos para processamento:', {
+      timestamp: dataToSend.timestamp,
+      email: dataToSend.email.replace(/(.{2}).+/, '$1***@')
+    });
+
+    // Envio para Supabase
+    const supabase = createClient(supabaseUrl, supabaseKey)
+    const { error: supabaseError } = await supabase
+      .from('respostas')
+      .insert([dataToSend])
+
+    if (supabaseError) {
+      console.error('Erro no Supabase:', supabaseError);
+      throw supabaseError;
+    }
+
+    // Resposta de sucesso
+    console.info('Dados processados com sucesso no Supabase');
+
+    res.status(200).json({ 
+      message: 'Dados salvos com sucesso', 
+      redirectUrl: '/obrigado.html',
+      csrf_token: dataToSend.csrf_token
+    });
+
+  } catch (error) {
+    // Tratamento centralizado de erros
+    console.error('Erro crítico no processamento:', {
+      message: error.message,
+      stack: error.stack
+    });
+
+    res.status(500).json({ 
+      error: 'Erro no processamento',
+      message: 'Não foi possível processar o formulário. Tente novamente mais tarde.',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
 }
